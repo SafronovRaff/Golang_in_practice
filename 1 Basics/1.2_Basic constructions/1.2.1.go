@@ -28,8 +28,10 @@ func main() {
 	// не меняйте этот блок
 	var s string
 
-	fmt.Scan(&s)
-
+	_, err := fmt.Scan(&s)
+	if err != nil {
+		fmt.Print("input error")
+	}
 	d, _ := time.ParseDuration(s)
 	// выведите исходное значение
 	// и количество минут в нем
