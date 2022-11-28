@@ -26,31 +26,17 @@ TIL
 func main() {
 	phrase := readString()
 	abbr := []rune{}
-	// 1. Разбейте фразу на слова, используя `strings.Fields()`
-	// 2. Возьмите первую букву каждого слова и приведите
-	//    ее к верхнему регистру через `unicode.ToUpper()`
-	// 3. Если слово начинается не с буквы, игнорируйте его
-	//    проверяйте через `unicode.IsLetter()`
-	// 4. Составьте слово из получившихся букв и запишите его
-	//    в переменную `abbr`
-	// ...
-	phr := strings.Fields(phrase)
-	for _, value := range phr {
-		str := []rune(value)[0]
-		if unicode.IsLetter(str) {
-			abbr = append(abbr, unicode.ToUpper(str))
+
+	phr := strings.Fields(phrase) // разбиваем строку на строки
+	for _, value := range phr {   // ренжуем значения строк
+		str := rune(value[0])      //создаём переменную(срез) первого символа строки
+		if unicode.IsLetter(str) { // если символ буква то ... если нет то пропускаем
+			abbr = append(abbr, unicode.ToUpper(str)) // добавляем эту букву в верхнем регистре в массив
 		}
 	}
 
-	//abbr := string(a) + string(b) + string(c)
-	//fmt.Print(string(a))
-
-	fmt.Println(string(abbr))
+	fmt.Println(string(abbr)) // конвертируем массив рун в стринг
 }
-
-// ┌─────────────────────────────────┐
-// │ не меняйте код ниже этой строки │
-// └─────────────────────────────────┘
 
 // readString читает строку из `os.Stdin` и возвращает ее
 func readString() string {

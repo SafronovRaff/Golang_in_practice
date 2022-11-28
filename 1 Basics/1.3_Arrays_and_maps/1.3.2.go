@@ -26,11 +26,10 @@ func main() {
 	// сколько раз она встречается
 	counter := make(map[int]int)
 	// ...
-
-	for number > 0 {
-		num := number % 10
-		counter[num]++
-		number = (number - num) / 10
+	for number != 0 { // цикл пока не 0
+		num := number % 10   // создаём переменую остатка от деления входного числа
+		counter[num]++       // добавляем в мапу переменную в виде ключа и в случае повторения увеличиваем значение на +1
+		number = number / 10 // убираем по одному символу с конца за цикл
 	}
 
 	printCounter(counter)
