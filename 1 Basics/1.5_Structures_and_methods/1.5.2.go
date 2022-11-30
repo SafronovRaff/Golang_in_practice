@@ -38,10 +38,7 @@ func letters(s string) bool {
 // строки согласно utf8.RuneCountInString() - не меньше указанной
 func minlen(length int) validator {
 	return func(s string) bool {
-		if utf8.RuneCountInString(s) >= length {
-			return true
-		}
-		return false
+		return utf8.RuneCountInString(s) >= length
 	}
 }
 
