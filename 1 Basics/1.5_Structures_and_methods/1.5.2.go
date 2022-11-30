@@ -13,25 +13,25 @@ type validator func(s string) bool
 // digits возвращает true, если s содержит хотя бы одну цифру
 // согласно unicode.IsDigit(), иначе false
 func digits(s string) bool {
-	b := false
+	// ...
 	for _, v := range s {
-		if unicode.IsDigit(v) == true {
-			b = true
+		if unicode.IsDigit(v) {
+			return true
 		}
+
 	}
-	return b
+	return false
 }
 
 // letters возвращает true, если s содержит хотя бы одну букву
 // согласно unicode.IsLetter(), иначе false
 func letters(s string) bool {
-	b := false
 	for _, v := range s {
-		if unicode.IsLetter(v) == true {
-			b = true
+		if unicode.IsLetter(v) {
+			return true
 		}
 	}
-	return b
+	return false
 }
 
 // minlen возвращает валидатор, который проверяет, что длина
@@ -48,7 +48,6 @@ func minlen(length int) validator {
 // and возвращает валидатор, который проверяет, что все
 // переданные ему валидаторы вернули true
 func and(funcs ...validator) validator {
-	// ...
 	return func(s string) bool {
 		for _, v := range funcs {
 			if v(s) == false {
@@ -63,7 +62,7 @@ func and(funcs ...validator) validator {
 // or возвращает валидатор, который проверяет, что хотя бы один
 // переданный ему валидатор вернул true
 func or(funcs ...validator) validator {
-	// ...
+
 	return func(s string) bool {
 		for _, v := range funcs {
 			if v(s) == true {
@@ -83,17 +82,15 @@ type password struct {
 // isValid() проверяет, что пароль корректный, согласно
 // заданному для пароля валидатору
 func (p *password) isValid() bool {
-	// ...
 	return p.validator(p.value)
 }
 
-// ┌─────────────────────────────────┐
-// │ не меняйте код ниже этой строки │
-// └─────────────────────────────────┘
-
 func main() {
 	var s string
-	fmt.Scan(&s)
+	_, err := fmt.Scan(&s)
+	if err != nil {
+		fmt.Print("input error")
+	}
 	// валидатор, который проверяет, что пароль содержит буквы и цифры,
 	// либо его длина не менее 10 символов
 	validator := or(and(digits, letters), minlen(10))
