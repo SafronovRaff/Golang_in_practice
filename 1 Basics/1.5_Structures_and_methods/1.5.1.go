@@ -76,9 +76,6 @@ func (trn *tournament) calcRating() rating {
 	return res
 }
 
-// код, который парсит результаты игр, уже реализован
-// код, который печатает рейтинг, уже реализован
-// ваша задача - реализовать недостающие структуры и методы выше
 func main() {
 	src := readString()
 	trn := parseTournament(src)
