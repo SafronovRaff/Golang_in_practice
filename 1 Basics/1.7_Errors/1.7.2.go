@@ -1,6 +1,5 @@
 package main
 
-// не меняйте импорты, они нужны для проверки
 import (
 	"bufio"
 	"fmt"
