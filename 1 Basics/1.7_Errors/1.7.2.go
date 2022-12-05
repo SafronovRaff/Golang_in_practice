@@ -1,7 +1,9 @@
 package main
 
+// не меняйте импорты, они нужны для проверки
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -9,38 +11,50 @@ import (
 )
 
 // account представляет счет
-type account1 struct {
+type account struct {
 	balance   int
 	overdraft int
 }
 
+var overdraftErr error = errors.New("expect overdraft >= 0")
+var balanceErr error = errors.New("balance cannot exceed overdraft")
+
 func main() {
-	var acc account1
+
+	var acc account
 	var trans []int
-	defer func() {
-		fmt.Print("-> ")
-		err := recover()
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
+	var err error
+	fmt.Print("-> ")
+
+	acc, trans, err = parseInput()
+
+	if err != nil {
+		fmt.Println(err)
+	} else {
 		fmt.Println(acc, trans)
-	}()
-	acc, trans = parseInput1()
+	}
+
 }
 
 // parseInput считывает счет и список транзакций из os.Stdin.
-func parseInput1() (account1, []int) {
-	accSrc, transSrc := readInput1()
-	acc := parseAccount1(accSrc)
-	trans := parseTransactions(transSrc)
-	return acc, trans
+func parseInput() (account, []int, error) {
+	accSrc, transSrc := readInput()
+
+	acc, err := parseAccount(accSrc)
+	if err != nil {
+		return account{}, nil, err
+	}
+	trans, err := parseTransactions(transSrc)
+	if err != nil {
+		return account{}, nil, err
+	}
+	return acc, trans, nil
 }
 
 // readInput возвращает строку, которая описывает счет
 // и срез строк, который описывает список транзакций.
 // эту функцию можно не менять
-func readInput1() (string, []string) {
+func readInput() (string, []string) {
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Split(bufio.ScanWords)
 	scanner.Scan()
@@ -54,26 +68,35 @@ func readInput1() (string, []string) {
 
 // parseAccount парсит счет из строки
 // в формате balance/overdraft.
-func parseAccount1(src string) account1 {
+func parseAccount(src string) (account, error) {
 	parts := strings.Split(src, "/")
-	balance, _ := strconv.Atoi(parts[0])
-	overdraft, _ := strconv.Atoi(parts[1])
+	balance, err := strconv.Atoi(parts[0])
+	if err != nil {
+		return account{}, err
+	}
+	overdraft, err := strconv.Atoi(parts[1])
+	if err != nil {
+		return account{}, err
+	}
 	if overdraft < 0 {
-		panic("expect overdraft >= 0")
+		return account{}, overdraftErr
 	}
 	if balance < -overdraft {
-		panic("balance cannot exceed overdraft")
+		return account{}, balanceErr
 	}
-	return account1{balance, overdraft}
+	return account{balance, overdraft}, nil
 }
 
 // parseTransactions парсит список транзакций из строки
 // в формате [t1 t2 t3 ... tn].
-func parseTransactions(src []string) []int {
+func parseTransactions(src []string) ([]int, error) {
 	trans := make([]int, len(src))
 	for idx, s := range src {
-		t, _ := strconv.Atoi(s)
+		t, err := strconv.Atoi(s)
+		if err != nil {
+			return nil, err
+		}
 		trans[idx] = t
 	}
-	return trans
+	return trans, nil
 }
