@@ -16,18 +16,12 @@ type account struct {
 	overdraft int
 }
 
-var overdraftErr error = errors.New("expect overdraft >= 0")
-var balanceErr error = errors.New("balance cannot exceed overdraft")
-
 func main() {
-
 	var acc account
 	var trans []int
 	var err error
 	fmt.Print("-> ")
-
 	acc, trans, err = parseInput()
-
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -39,7 +33,6 @@ func main() {
 // parseInput считывает счет и список транзакций из os.Stdin.
 func parseInput() (account, []int, error) {
 	accSrc, transSrc := readInput()
-
 	acc, err := parseAccount(accSrc)
 	if err != nil {
 		return account{}, nil, err
@@ -48,6 +41,7 @@ func parseInput() (account, []int, error) {
 	if err != nil {
 		return account{}, nil, err
 	}
+
 	return acc, trans, nil
 }
 
@@ -74,15 +68,16 @@ func parseAccount(src string) (account, error) {
 	if err != nil {
 		return account{}, err
 	}
+
 	overdraft, err := strconv.Atoi(parts[1])
 	if err != nil {
 		return account{}, err
 	}
 	if overdraft < 0 {
-		return account{}, overdraftErr
+		return account{}, errors.New("expect overdraft >= 0")
 	}
 	if balance < -overdraft {
-		return account{}, balanceErr
+		return account{}, errors.New("balance cannot exceed overdraft")
 	}
 	return account{balance, overdraft}, nil
 }
@@ -94,7 +89,7 @@ func parseTransactions(src []string) ([]int, error) {
 	for idx, s := range src {
 		t, err := strconv.Atoi(s)
 		if err != nil {
-			return nil, err
+			return trans, err
 		}
 		trans[idx] = t
 	}
