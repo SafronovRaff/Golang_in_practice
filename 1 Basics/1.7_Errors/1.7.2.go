@@ -17,11 +17,9 @@ type account struct {
 }
 
 func main() {
-	var acc account
-	var trans []int
-	var err error
+
 	fmt.Print("-> ")
-	acc, trans, err = parseInput()
+	acc, trans, err := parseInput()
 	if err != nil {
 		fmt.Println(err)
 	} else {
