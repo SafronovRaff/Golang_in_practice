@@ -6,9 +6,10 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/gothanks/match/glob"
 	"os"
 	"strings"
+
+	"github.com/sahilm/fuzzy"
 )
 
 func main() {
@@ -16,18 +17,13 @@ func main() {
 	if err != nil {
 		fail(err)
 	}
-	isMatch, err := glob.Match(pattern, src)
-	if err != nil {
-		fail(err)
-	}
+	matches := fuzzy.Find(pattern, []string{src})
+	isMatch := len(matches) > 0
 	if !isMatch {
 		os.Exit(0)
 	}
 	fmt.Println(src)
 }
-
-// match returns true if src matches pattern,
-// false otherwise.
 
 // readInput reads pattern and source string
 // from command line arguments and returns them.
