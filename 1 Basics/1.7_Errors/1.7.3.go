@@ -76,8 +76,7 @@ func (s step) String() string {
 	return fmt.Sprintf("%s %s", s.cmd, s.obj)
 }
 
-////////////////////////////////////////////////// начало решения
-
+// //////////////////////////////////////////////// начало решения
 // invalidStepError - ошибка, которая возникает,
 // когда команда шага не совместима с объектом
 type invalidStepError struct {
@@ -280,7 +279,7 @@ func giveAdvice(err error) string {
 		if comLim.com == talk {
 			return fmt.Sprintf("talk to less")
 		}
-
+		return ""
 	}
 	var obLimit objectLimitExceededError
 	if errors.As(err, &obLimit) {
