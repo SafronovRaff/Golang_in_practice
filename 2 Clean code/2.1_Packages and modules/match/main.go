@@ -6,6 +6,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/gothanks/match/glob"
 	"os"
 	"strings"
 )
@@ -15,7 +16,7 @@ func main() {
 	if err != nil {
 		fail(err)
 	}
-	isMatch, err := match(pattern, src)
+	isMatch, err := glob.Match(pattern, src)
 	if err != nil {
 		fail(err)
 	}
