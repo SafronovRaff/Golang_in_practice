@@ -4,15 +4,7 @@ import (
 	"testing"
 )
 
-func Sum(nums ...int) int {
-	total := 0
-	for _, num := range nums {
-		total += num
-	}
-	return total
-}
-
-func TestSum(t *testing.T) {
+func TestSumMas(t *testing.T) {
 	tests := []struct {
 		name string
 		nums []int
