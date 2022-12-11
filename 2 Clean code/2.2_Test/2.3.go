@@ -1,25 +1,70 @@
 package main
 
 import (
+	"fmt"
+	"math/rand"
 	"testing"
+	"time"
 )
 
-func TestSumMas(t *testing.T) {
-	tests := []struct {
-		name string
-		nums []int
-		want int
-	}{
-		{"zero", []int{}, 0},
-		{"one", []int{0, 1}, 1},
-		{"three", []int{1, 2}, 3},
-		{"many", []int{1, 2, 3, 4, 5}, 15},
+// WeatherService предсказывает погоду.
+type WeatherService struct{}
+
+// Forecast сообщает ожидаемую дневную температуру на завтра.
+func (ws *WeatherService) Forecast() int {
+	rand.Seed(time.Now().Unix())
+	value := rand.Intn(31)
+	sign := rand.Intn(2)
+	if sign == 1 {
+		value = -value
 	}
+	return value
+}
+
+// Weather выдает текстовый прогноз погоды.
+type Weather struct {
+	service *WeatherService
+}
+
+// Forecast сообщает текстовый прогноз погоды на завтра.
+func (w Weather) Forecast() string {
+	deg := w.service.Forecast()
+	switch {
+	case deg < 10:
+		return "холодно"
+	case deg >= 10 && deg < 15:
+		return "прохладно"
+	case deg >= 15 && deg < 20:
+		return "идеально"
+	case deg >= 20:
+		return "жарко"
+	}
+	return "инопланетно"
+}
+
+type testCase struct {
+	deg  int
+	want string
+}
+
+var tests []testCase = []testCase{
+	{-10, "холодно"},
+	{0, "холодно"},
+	{5, "холодно"},
+	{10, "прохладно"},
+	{15, "идеально"},
+	{20, "жарко"},
+}
+
+func TestForecast(t *testing.T) {
+	service := &WeatherService{}
+	weather := Weather{service}
 	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			got := Sum(test.nums...)
+		name := fmt.Sprintf("%v", test.deg)
+		t.Run(name, func(t *testing.T) {
+			got := weather.Forecast()
 			if got != test.want {
-				t.Errorf("%s: got %d, want %d", test.name, test.nums, test.want)
+				t.Errorf("%s: got %s, want %s", name, got, test.want)
 			}
 		})
 	}
