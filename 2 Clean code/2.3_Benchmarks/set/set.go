@@ -14,19 +14,20 @@ func MakeIntset() Intset {
 }
 
 // Содержит отчеты о том, находится ли элемент в наборе.
-func (s Intset) Contains(elem int) bool  {
-	for _,el := range *s.elems{
-		if el === elem{
+func (s Intset) Contains(elem int) bool {
+	for _, el := range *s.elems {
+		if el == elem {
 			return true
 		}
 	}
 	return false
 }
+
 // Add добавляет элемент в набор.
-func (s Intset) Add(elem int)bool  {
-	if s.Contains(elem){
+func (s Intset) Add(elem int) bool {
+	if s.Contains(elem) {
 		return false
 	}
-	*s.elems = append( *s.elems, elem)
-return true
+	*s.elems = append(*s.elems, elem)
+	return true
 }
