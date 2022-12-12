@@ -22,3 +22,12 @@ func WordCountRegexp(s string) Counter {
 	}
 	return counter
 }
+
+func WordCountFields(s string) Counter {
+	counter := make(Counter)
+	for _, word := range strings.Fields(s) {
+		word = strings.ToLower(word)
+		counter[word]++
+	}
+	return counter
+}
