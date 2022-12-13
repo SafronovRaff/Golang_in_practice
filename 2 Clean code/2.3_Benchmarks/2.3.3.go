@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-type Words struct {
+/*type Words struct {
 	str map[string]int
 }
 
@@ -33,7 +33,7 @@ func (w Words) Index(word string) int {
 	}
 
 	return -1
-}
+}*/
 
 func main() {
 	s := "go is awesome, php is not"
@@ -49,9 +49,8 @@ func main() {
 	// -1
 }
 
-/*
 type Words struct {
-wmap map[string]int
+	wmap map[string]int
 }
 
 func MakeWords(s string) Words {
@@ -72,4 +71,3 @@ func (w Words) Index(word string) int {
 	}
 	return idx
 }
-*/
