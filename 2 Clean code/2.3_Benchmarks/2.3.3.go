@@ -1,12 +1,11 @@
 package main
 
-// не удаляйте импорты, они используются при проверке
 import (
 	"fmt"
 	"strings"
 )
 
-/*type Words struct {
+type Words struct {
 	str map[string]int
 }
 
@@ -33,7 +32,7 @@ func (w Words) Index(word string) int {
 	}
 
 	return -1
-}*/
+}
 
 func main() {
 	s := "go is awesome, php is not"
@@ -49,7 +48,7 @@ func main() {
 	// -1
 }
 
-type Words struct {
+/*type Words struct {
 	wmap map[string]int
 }
 
@@ -71,3 +70,4 @@ func (w Words) Index(word string) int {
 	}
 	return idx
 }
+*/
