@@ -12,10 +12,10 @@ func JoinWords(first, second string) []string {
 	words1 := split(first)
 	words2 := split(second)
 	words := join(words1, words2)
-	words = lower(words)
-	words = sorte(words)
-	words = uniq(words)
-	return words
+	words4 := lower(words)
+	words5 := sorte(words4)
+	words6 := uniq(words5)
+	return words6
 }
 
 // split разбивает строку на слова.
@@ -56,7 +56,7 @@ func sorte(words []string) []string {
 // uniq удаляет повторяющиеся слова.
 func uniq(words []string) []string {
 	uniq := []string{}
-	current := " "
+	current := ""
 	for _, word := range words {
 		if word == current {
 			continue
